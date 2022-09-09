@@ -68,11 +68,11 @@ RUN ln -s /usr/bin/php81 /usr/bin/php
 
 COPY ./composer.json ./composer.json
 
-RUN composer install
-
 VOLUME [ "/var/log/nginx" ]
 
 COPY . .
+
+RUN composer install
 
 RUN chown -R nginx:nginx /var/www/stocktubes/
 
