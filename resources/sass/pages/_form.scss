@@ -1,0 +1,115 @@
+&.form {
+    justify-content: center;
+    align-items: center;
+    padding: 32px 0;
+    
+    form {
+        display: flex;
+        flex-direction: column;
+        row-gap: 32px;
+        height: auto;
+        
+        .form-group {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--header);
+            padding: 2px;
+            border-radius: 6px;
+
+            label.text {
+                position: absolute;
+                transform: translateY(-50%) translateX(8px);
+                display: flex;
+                width: 100%;
+                z-index: 99;
+
+                span {
+                    display: flex;
+                    margin-top: 8px 0 0 8px;
+                    padding: 0 4px;
+                    font-size: 11px;
+                    text-transform: uppercase;
+                    font-weight: 700;
+                    background-color: white;
+                    user-select: none;
+                    color: var(--header);
+                }
+            }
+
+            input[type=text],
+            input[type=number],
+            input[type=email],
+            input[type=password]
+            {
+                display: flex;
+                min-width: 256px;
+                height: 40px;
+                padding: 0 16px;
+                outline: none;
+                border: none;
+                border-radius: var(--buttons-radius);
+                font-family: 'Nunito', sans-serif;
+                font-weight: 400;
+
+                &::placeholder {
+                    color: var(--blue-saturate);
+                }
+            }
+
+            &.file-group {
+                border: none;
+                background-color: transparent;
+                padding: 0;
+                align-items: center;
+                border-radius: none;
+
+                label {
+                    display: flex;
+                    width: 64px;
+                    height: 64px;
+                    background-color: var(--background);
+                    border-radius: var(--buttons-radius);
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+                    pointer-events: all;
+                    
+                    input[type=file] {
+                        display: none;
+                    }
+                }
+
+            }
+
+            &.row {
+                flex-direction: row;
+                background-color: transparent;
+                padding: 0;
+                justify-content: center;
+                border-radius: none;
+                
+                button.btn-submit {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: auto;
+                    height: 40px;
+                    font-family: 'Nunito', sans-serif;
+                    font-size: 16px;
+                    border-radius: var(--buttons-radius);
+                    padding: 0 16px;
+                    font-weight: 600;
+                    background-color: var(--header);
+                    color: var(--background);
+                    transition: background-color .25s ease;
+                    
+                    &:hover {
+                        transition: background-color .25s ease;
+                        background-color: var(--tonic);
+                    }
+                }
+            }
+        }
+    }
+}

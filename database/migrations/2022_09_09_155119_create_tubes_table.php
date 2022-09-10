@@ -29,10 +29,13 @@ return new class extends Migration
             $table->integer('unused')
                 ->default(0);
             $table->integer('warning')
+                ->nullable()
                 ->default(NULL);
             $table->integer('critical')
+                ->nullable()
                 ->default(NULL);
             $table->string('datasheet', 255)
+                ->nullable()
                 ->unique();
             $table->timestamps();
             $table->softDeletes();
