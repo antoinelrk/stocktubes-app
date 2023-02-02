@@ -269,6 +269,7 @@
 
             .tube-data {
                 display: flex;
+                column-gap: 32px;
 
                 ul {
                     display: flex;
@@ -300,8 +301,6 @@
                 }
             }
         }
-        
-
     
         .tube-informations {
             display: flex;
@@ -359,29 +358,38 @@
     
         .tube-control {
             display: flex;
-            margin: 32px 0 0 0;
+            column-gap: 8px;
+            justify-content: right;
     
             .btn {
-                padding: 8px 32px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0 32px;
+                height: 40px;
                 border-radius: 4px;
-                background-color: red;
                 color: white;
-    
-                &:first-child {
-                    margin-right: auto;
-                    background-color: var(--buttons-light);
+                background-color: var(--buttons-light);
+                transition: background-color .15s ease;
+
+                &:hover {
                     transition: background-color .15s ease;
-    
-                    &:hover {
-                        transition: background-color .15s ease;
-                        background-color: var(--header);
-                    }
+                    background-color: var(--header);
                 }
     
                 &:last-child {
-                    margin-left: auto;
+                    display: flex;
                     background-color: #bf332f;
                     transition: background-color .15s ease;
+                    width: 40px;
+                    padding: 0;
+
+                    figure {
+                        display: flex;
+                        width: 40%;
+                        height: 40%;
+                        fill: white;
+                    }
     
                     &:hover {
                         transition: background-color .15s ease;

@@ -59,10 +59,10 @@
                     {{ ($tube->quantity) }}
                 </td>
                 <td class="number">
-                    {{ $tube->critical === null ? "Non défini" : $tube->critical }}
+                    {{ $tube->used === null ? "Non défini" : $tube->used }}
                 </td>
                 <td class="number">
-                    {{ $tube->warning === null ? "Non défini" : $tube->warning }}
+                    {{ $tube->unused === null ? "Non défini" : $tube->unused }}
                 </td>
                 <td class="action">
                     <a href="{{ route('tubes.updateTubeForm', 1) }}">
