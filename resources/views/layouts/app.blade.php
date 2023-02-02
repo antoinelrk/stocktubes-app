@@ -10,7 +10,7 @@
 <body>
     <div id="app">
         @if (session()->get('errors') !== null)
-        <div class="notifications-wrapper js-popup success">
+        <div class="notifications-wrapper js-popup errors">
             <div class="notification-content">{{ session()->get('errors') }}</div>
             <button class="js-close-popup">
                 <figure>
@@ -57,7 +57,7 @@
         </header>
         @yield('content')
         <footer>
-            <span>&copy; <a href="https://antoinelrk.com" target="_blank">Antoine LRK</a> • 2015 - 2023</span>
+            <span>&copy; <a href="https://antoinelrk.com" target="_blank">Antoine LRK</a> • 2015 - 2023 @auth @if(auth()->user()->is_admin) • <a href="{{ route('dashboard') }}">Administration</a> @endif @endauth</span>
         </footer>
     </div>
 </body>

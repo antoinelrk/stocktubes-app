@@ -64,4 +64,5 @@ Route::group(['prefix' => 'tubes'], function () {
 Route::group(['prefix' => 'users'], function () {
     Route::get('/profile', [UsersController::class, 'profile'])
         ->name('users.profile');
+    Route::post('/', [UsersController::class, 'create'])->name('users.create');
 });
