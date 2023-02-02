@@ -19,7 +19,7 @@ class TubesController extends Controller
     {
         try {
             $tubes = Tube::orderBy('reference')
-                ->paginate();
+                ->paginate(1);
         } catch (ModelNotFoundException $e) {
             return $e;
         }

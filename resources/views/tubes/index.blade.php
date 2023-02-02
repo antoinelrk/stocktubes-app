@@ -92,6 +92,7 @@
             </tr>
             @endforeach
         </table>
+        {{ $tubes->links() }}
     </div>
 </section>
 @endsection
