@@ -13,9 +13,9 @@
             <nav>
                 <ul>
                     <li><a href="{{ route('home') }}">Home</a></li>
-                    <li><a href="{{ route('tubes') }}">Tubes</a></li>
-                    <li><a href="#">SemiConductors</a></li>
                     @auth
+                        <li><a href="{{ route('tubes') }}">Tubes</a></li>
+                        <li><a href="#">SemiConductors</a></li>
                         <li><a href="{{ route('logout') }}">Logout</a></li>
                     @endauth
                     @guest
@@ -33,7 +33,7 @@
         </header>
         @yield('content')
         <footer>
-            <span>&copy; Antoine LRK • 2019 - 2022</span>
+            <span>&copy; <a href="https://antoinelrk.com" target="_blank">Antoine LRK</a> • 2015 - 2023</span>
         </footer>
     </div>
 </body>

@@ -2,7 +2,7 @@ FROM alpine:3.16
 LABEL maintainer="AntoineLRK <contact@antoinelrk.com>"
 LABEL version="0.1"
 
-WORKDIR /var/www/stocktubes
+WORKDIR /var/www
 
 COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/supervisord.conf /etc/supervisord.conf
@@ -74,7 +74,7 @@ COPY . .
 
 RUN composer install
 
-RUN chown -R nginx:nginx /var/www/stocktubes/
+RUN chown -R nginx:nginx /var/www/
 
 ENV TZ Europe/Paris
 EXPOSE 443 80
