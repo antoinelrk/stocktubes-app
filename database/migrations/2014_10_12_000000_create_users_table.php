@@ -21,6 +21,8 @@ return new class extends Migration
                 ->unique();
             $table->string('profil_picture', 128)
                 ->nullable();
+            $table->boolean('is_admin')
+                ->default(false);
             $table->timestamp('email_verified_at')
                 ->nullable();
             $table->string('password');

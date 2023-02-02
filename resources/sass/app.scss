@@ -33,6 +33,80 @@ body {
         width: 100%;
         min-height: 100vh;
 
+        .notifications-wrapper {
+            position: absolute;
+            display: flex;
+            padding: 0 16px;
+            bottom: 32px;
+            right: 32px;
+            border-radius: 4px;
+            align-items: center;
+            height: 64px;
+            column-gap: 16px;
+            z-index: 99;
+            animation: reveal .75s ease both;
+
+            &.success {
+                background-color: hsl(83, 100%, 35%);
+                color: hsl(83, 100%, 95%);
+
+                button.js-close-popup {
+                    figure {
+                        fill: rgba(hsl(83, 100%, 95%), .5);
+                    }
+                    
+                    &:hover {
+                        figure {
+                            fill: hsl(83, 100%, 95%);    
+                        }
+                    }
+                }
+            }
+
+            &.error {
+                background-color: hsl(0, 100%, 35%);
+                color: hsl(0, 100%, 95%);
+
+                button.js-close-popup {
+                    figure {
+                        fill: rgba(hsl(0, 100%, 95%), .5);
+                    }
+
+                    &:hover {
+                        figure {
+                            fill: hsl(0, 100%, 95%);    
+                        }
+                    }
+                }
+            }
+
+            button.js-close-popup {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 16px;
+                height: 16px;
+
+                figure {
+                    display: flex;
+                    width: 80%;
+                    height: 80%;
+                    pointer-events: none;
+                }
+            }
+        }
+
+        @keyframes reveal {
+            from {
+                opacity: 0;
+                transform: translateY(-25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         header {
             display: flex;
             background-color: var(--header);

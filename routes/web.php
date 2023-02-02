@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\PagesController;
@@ -30,10 +31,13 @@ Route::group(['prefix' => 'semi-conductors'], function () {
     Route::get('/', [SemiConductorController::class, 'index'])->name('semi-conductors');
 });
 
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
+    Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+});
+
 Route::group(['prefix' => 'tubes'], function () {
     Route::get('/', [TubesController::class, 'index'])
         ->name('tubes');
-
     Route::get('/add', [TubesController::class, 'addTubeForm'])
         ->name('tubes.addTubeForm');
     Route::get('/edit/{slug}', [TubesController::class, 'updateTubeForm'])

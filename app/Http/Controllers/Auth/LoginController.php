@@ -19,13 +19,13 @@ class LoginController extends Controller
             'password' => $request->password
         ];
         if (Auth::attempt($credentials)) {
-            return redirect(route('home'));
+            return redirect(route('home'))->with(['success' => 'Vous êtes maintenant connecté']);
         }
-        return redirect(route('home'));
+        return redirect(route('home'))->with(['errors' => 'Impossible de vous déconnecter, veuillez contacter un administrateur']);
     }
 
     public function logout () {  
         Auth::logout();
-        return redirect(route('home'));
+        return redirect(route('login'))->with(['success' => 'Vous êtes maintenant déconnecté']);
     }
 }
