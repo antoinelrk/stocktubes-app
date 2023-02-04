@@ -9,6 +9,7 @@
 </head>
 <body>
     <div id="app">
+        @include('elements.modal')
         @if (session()->get('errors') !== null)
         <div class="notifications-wrapper js-popup errors">
             <div class="notification-content">{{ session()->get('errors') }}</div>

@@ -43,9 +43,8 @@ Route::group(['prefix' => 'tubes'], function () {
     Route::get('/edit/{slug}', [TubesController::class, 'updateTubeForm'])
         ->where('slug', '[0-9A-Za-z\-]+')
         ->name('tubes.updateTubeForm');
-    Route::get('/delete/{slug}', [TubesController::class, 'deleteTubeForm'])
-        ->where('slug', '[0-9A-Za-z\-]+')
-        ->name('tubes.deleteTubeForm');
+    Route::get('/delete/{slug}', [TubesController::class, 'delete'])
+        ->where('slug', '[0-9A-Za-z\-]+');
     Route::get('/show/{slug}', [TubesController::class, 'showTubePage'])
         ->where('slug', '[0-9A-Za-z\-]+')
         ->name('tubes.show');
@@ -53,11 +52,13 @@ Route::group(['prefix' => 'tubes'], function () {
         ->where('slug', '[0-9A-Za-z\-]+')
         ->name('tubes.datasheet');
 
-    Route::post('/', [TubesController::class, 'create'])
+    Route::post('/create', [TubesController::class, 'create'])
         ->name('tubes.create');
-    Route::patch('/', [TubesController::class, 'update'])
+    Route::post('/update/{slug}', [TubesController::class, 'update'])
+        ->where('slug', '[0-9A-Za-z\-]+')
         ->name('tubes.update');
-    Route::delete('/', [TubesController::class, 'delete'])
+    Route::post('/delete/{slug}', [TubesController::class, 'delete'])
+        ->where('slug', '[0-9A-Za-z\-]+')
         ->name('tubes.delete');
 });
 
