@@ -7,6 +7,7 @@ WORKDIR /var/www
 COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/supervisord.conf /etc/supervisord.conf
 COPY ./docker/nginx/vhost.conf /etc/nginx/sites-available/default.conf
+COPY ./docker/php/php.ini /etc/php81/php.ini
 
 RUN apk add --update --no-cache \
 tzdata \
