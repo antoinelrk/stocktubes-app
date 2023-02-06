@@ -46,7 +46,7 @@
 .modal[aria-hidden="true"] {
 	animation-name: fadeOut;
 }
-.modal[aria-hidden="true"] .modal-wrapper {
+.modal[aria-hidden="true"] .modal-confirmation-wrapper {
 	animation-name: slideToBottom;
 }
 

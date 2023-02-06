@@ -374,16 +374,26 @@
                 background-color: var(--buttons-light);
                 transition: background-color .15s ease;
 
+                &.disabled {
+                    background-color: #818181 !important;
+                    pointer-events: none;
+                    color: #cdcdcd;
+
+                    figure {
+                        fill: #cdcdcd !important;
+                    }
+                }
+
                 &:hover {
                     transition: background-color .15s ease;
                     background-color: var(--header);
                 }
     
-                &:last-child {
-                    display: flex;
+                &.delete {
                     background-color: #bf332f;
                     transition: background-color .15s ease;
                     width: 40px;
+                    cursor: pointer;
                     padding: 0;
 
                     figure {
