@@ -37,9 +37,8 @@ const closeModal = (e) => {
     modal.addEventListener('animationend', hideModal)
 }
 
-document.querySelectorAll('.js-delete-tube').forEach((element) => {
-    element.addEventListener('click', openModal)
-})
+document.querySelectorAll('.js-delete-tube').forEach((element) => element.addEventListener('click', openModal))
+document.querySelectorAll('.js-modal-close').forEach((element) => element.addEventListener('click', closeModal))
 
 window.addEventListener('keydown', (e) => {
     if (e.key === "Escape" || e.key === "Esc") closeModal(e)
