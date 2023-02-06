@@ -15,13 +15,13 @@
             <label class="text" for="used">
                 <span>Occasion</span>
             </label>
-            <input type="number" name="used" value="0" placeholder="Nombre de tubes d'occasions" value="{{ $tube->used }}">
+            <input type="number" name="used" placeholder="Nombre de tubes d'occasions" value="{{ $tube->used }}">
         </div>
         <div class="form-group">
             <label class="text" for="unused">
                 <span>Neuf</span>
             </label>
-            <input type="number" name="unused" value="0" placeholder="Nombre de tubes neufs" value="{{ $tube->unused }}">
+            <input type="number" name="unused" placeholder="Nombre de tubes neufs" value="{{ $tube->unused }}">
         </div>
         <div class="form-group">
             <label class="text" for="warning">

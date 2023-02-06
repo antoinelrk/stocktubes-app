@@ -24,7 +24,14 @@ class TubeUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'used' => [
+                'integer',
+                'between:0,999'
+            ],
+            'unused' => [
+                'integer',
+                'between:0,999'
+            ]
         ];
     }
 }

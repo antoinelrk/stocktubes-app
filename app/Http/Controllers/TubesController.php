@@ -73,6 +73,8 @@ class TubesController extends Controller
             $datasheetName = $slug . "." . $request->datasheet->extension();
         }
 
+        dd($request->validated());
+
         if ($tube->update(array_merge($request->validated(), [
             'reference' => strtoupper($request->reference),
             'user_id' => Auth::user()->id,
