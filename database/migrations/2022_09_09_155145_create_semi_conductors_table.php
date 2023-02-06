@@ -33,7 +33,6 @@ return new class extends Migration
             $table->integer('critical')
                 ->default(0);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

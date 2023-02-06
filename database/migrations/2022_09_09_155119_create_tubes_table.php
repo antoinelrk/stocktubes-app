@@ -38,7 +38,6 @@ return new class extends Migration
                 ->nullable()
                 ->unique();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
