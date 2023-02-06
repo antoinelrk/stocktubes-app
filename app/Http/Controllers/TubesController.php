@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Tube;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Tube\TubeUpdateRequest;
+use App\Http\Requests\Tubes\TubeUpdateRequest;
 use App\Http\Requests\Tubes\RequestTubesCreate;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Storage;
 
 class TubesController extends Controller
@@ -73,12 +72,9 @@ class TubesController extends Controller
             $datasheetName = $slug . "." . $request->datasheet->extension();
         }
 
-        dd($request->validated());
-
         if ($tube->update(array_merge($request->validated(), [
             'reference' => strtoupper($request->reference),
-            'user_id' => Auth::user()->id,
-            'datasheet' => $request->datasheet !== null ? $datasheetName : null,
+            'datasheet' => $request->datasheet !== null ? $datasheetName : $tube->datasheet,
             'slug' => $slug
         ]))) {
             if ($request->datasheet !== null) {
