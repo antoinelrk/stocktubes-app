@@ -31,4 +31,9 @@ class Tube extends Model
     {
         return ($this->used + $this->unused);
     }
+
+    public function user ()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
