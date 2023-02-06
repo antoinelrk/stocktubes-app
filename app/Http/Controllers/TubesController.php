@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Tube\TubeUpdateRequest;
 use App\Http\Requests\Tubes\RequestTubesCreate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Storage;
 
 class TubesController extends Controller
 {
@@ -47,24 +48,20 @@ class TubesController extends Controller
             $datasheetName = $slug . "." . $request->datasheet->extension();
         }
 
-        try {
-            $tube = new Tube(array_merge($request->validated(), [
-                'reference' => strtoupper($request->reference),
-                'user_id' => Auth::user()->id,
-                'datasheet' => $request->datasheet !== null ? $datasheetName : null,
-                'slug' => $slug
-            ]));
+        $tube = new Tube(array_merge($request->validated(), [
+            'reference' => strtoupper($request->reference),
+            'user_id' => Auth::user()->id,
+            'datasheet' => $request->datasheet !== null ? $datasheetName : null,
+            'slug' => $slug
+        ]));
 
-            if ($tube->save()) {
-                if ($request->datasheet !== null) {
-                    $request->datasheet->storeAs('datasheets/tubes/', $datasheetName, 'public');
-                }
+        if ($tube->save()) {
+            if ($request->datasheet !== null) {
+                $request->datasheet->storeAs('datasheets/tubes/', $datasheetName, 'public');
             }
-
-        } catch (ModelNotFoundException $e) {
-            return $e;
+            return redirect(route('tubes'))->with(['success' => "Le tube $tube->reference a bien été ajouté."]);
         }
-        return redirect(route('tubes'));
+        return back()->with(['errors' => "Impossible d'ajouter le tube, contactez un administrateur."]);
     }
 
     public function update (TubeUpdateRequest $request, $slug)
@@ -85,15 +82,41 @@ class TubesController extends Controller
             if ($request->datasheet !== null) {
                 $request->datasheet->storeAs('datasheets/tubes/', $datasheetName, 'public');
             }
+            return redirect(route('tubes.show', $tube->slug))
+                ->with(['success' => "Le tube $tube->reference à bien été modifié."]);
         }
-        return redirect(route('tubes.show', $tube->slug));
+
+        return back()->with(['errors' => "Impossible de modifier le tube $tube->reference, contactez un administrateur."]);
+    }
+
+    public function removeDatasheet ($slug)
+    {
+        $tube = Tube::where('slug', $slug)->first();
+        if ($this->deleteDatasheet($tube)) {
+            $tube->datasheet = null;
+            if ($tube->update()) {
+                return redirect(route('tubes.show', $tube->slug))->with(['success' => "Le datasheet du tube $tube->reference a bien été supprimé."]);
+            }
+            return back()->with(['errors' => "Impossible de supprimer le tube $tube->reference, contactez un administrateur."]);
+        }
+        return back()->with(['errors' => "Impossible de supprimer le datasheet pour le tube $tube->reference, contactez un administrateur."]);
+    }
+
+    private function deleteDatasheet ($tube): bool
+    {
+        if (Storage::disk('public')->delete("datasheets/tubes/$tube->datasheet")) return true;
+        return false;
     }
 
     public function delete($slug)
     {
         $tube = Tube::where('slug', $slug)->first();
-        // TODO: Supprimer aussi le datasheet
-        if ($tube->delete()) return redirect(route('tubes'))->with(['success' => "Le tube $tube->reference à bien été supprimé."]);
+        if ($this->deleteDatasheet($tube)) {
+            if ($tube->delete()) {
+                return back()->with(['errors' => "Impossible de supprimer le tube $tube->reference, contactez un administrateur."]);
+            }
+            return redirect(route('tubes'))->with(['success' => "Le tube $tube->reference à bien été supprimé."]);
+        }
         return back()->with(['errors' => "Impossible de supprimer le tube $tube->reference, contactez un administrateur"]);
     }
 }

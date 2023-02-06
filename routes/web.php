@@ -51,6 +51,9 @@ Route::group(['prefix' => 'tubes'], function () {
     Route::get('/datasheet/{slug}', [TubesController::class, 'datasheet'])
         ->where('slug', '[0-9A-Za-z\-]+')
         ->name('tubes.datasheet');
+    Route::get('/datasheet/remove/{slug}', [TubesController::class, 'removeDatasheet'])
+        ->where('slug', '[0-9A-Za-z\-]+')
+        ->name('tubes.datasheet.remove');
 
     Route::post('/create', [TubesController::class, 'create'])
         ->name('tubes.create');

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', "Edit tube")
+@section('title', "Edit tube $tube->reference")
 
 @section('content')
 <section class="content form">
@@ -40,7 +40,7 @@
         </div>
         <div class="form-group row">
             <button type="submit" class="btn-submit">
-                Create
+                Update
             </button>
         </div>
     </form>

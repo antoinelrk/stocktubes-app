@@ -10,8 +10,8 @@ let modal = null
 const openModal = async (e) => {
     e.preventDefault()
     const data = JSON.parse(e.target.getAttribute('data-tube'))
-    const modalMessage = `Souhaitez-vous vraiment supprimer le tube ${data.reference} ?`
-    const yesResponseURL = `/tubes/delete/${data.slug}`
+    const modalMessage = e.target.getAttribute('data-message')
+    const yesResponseURL = `${e.target.getAttribute('data-payload')}${data.slug}`
     modal = document.querySelector('.modal')
     modal.style.display = null
     modal.removeAttribute('aria-hidden')

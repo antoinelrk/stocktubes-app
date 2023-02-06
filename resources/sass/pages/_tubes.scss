@@ -373,6 +373,11 @@
                 color: white;
                 background-color: var(--buttons-light);
                 transition: background-color .15s ease;
+                cursor: pointer;
+
+                figure {
+                    pointer-events: none;
+                }
 
                 &.disabled {
                     background-color: #818181 !important;
@@ -388,9 +393,15 @@
                     transition: background-color .15s ease;
                     background-color: var(--header);
                 }
+
+                &.danger {
+                    background-color: #bf332f;
+                    &:hover {
+                        background-color: #AF0808;
+                    }
+                }
     
                 &.delete {
-                    background-color: #bf332f;
                     transition: background-color .15s ease;
                     width: 40px;
                     cursor: pointer;
@@ -405,7 +416,6 @@
     
                     &:hover {
                         transition: background-color .15s ease;
-                        background-color: #AF0808;
                     }
                 }
             }

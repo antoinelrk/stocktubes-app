@@ -49,7 +49,7 @@ body {
             animation: reveal .75s ease both;
 
             &.success {
-                background-color: hsl(83, 100%, 35%);
+                background-color: #6eb300;
                 color: hsl(83, 100%, 95%);
 
                 button.js-close-popup {
@@ -66,7 +66,7 @@ body {
             }
 
             &.error {
-                background-color: hsl(0, 100%, 35%);
+                background-color: #b30000;
                 color: hsl(0, 100%, 95%);
 
                 button.js-close-popup {
