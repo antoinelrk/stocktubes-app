@@ -6,7 +6,7 @@
 <section class="content tubes">
     <div class="content-head">
 
-        <h2>List of tubes</h2>
+        <h2>List of tubes ({{ $tubes->count() }})</h2>
 
         <div class="control">
             <div class="search-bar">
