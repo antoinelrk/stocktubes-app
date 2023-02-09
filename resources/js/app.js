@@ -5,10 +5,10 @@ import '../../resources/sass/app.scss'
  * Tubes filter
  */
 const filterButtons = document.querySelectorAll('.js-mode-show')
+const searchInput = document.querySelector('#search-input')
+
 const resetFilterButtons = (clickedButton) => {
-    filterButtons.forEach((button) => {
-        if (clickedButton !== button) button.classList.remove('active')
-    })
+    filterButtons.forEach((button) => (clickedButton !== button) ? button.classList.remove('active') : "")
 }
 
 const tubesData = JSON.parse(document.querySelector('.js-title-tubes').getAttribute('data-tubes'))
@@ -23,24 +23,39 @@ filterButtons.forEach((button) => {
             clickedButtonElement.classList.add('active')
             resetFilterButtons(clickedButtonElement)
             filterRule = e.target.getAttribute('data-filter')
-            switch (filterRule) {
-                case "all": 
-                    filteredData = tubesData
-                    break
-                case "warning":
-                    filteredData = tubesData.filter((tube) => tube.quantity <= tube.warning)
-                    break
-                case "critical":
-                    filteredData = tubesData.filter((tube) => tube.quantity <= tube.critical)
-                    break
-                default: 
-                    filteredData = tubesData
-            }
+            filterByKey(filterRule)
+            filterByReference(searchInput.value.toUpperCase())
             redrawTable(filteredData)
         }
     })
 })
 
+const filterByKey = (key) => {
+    switch(key) {
+        case "all":
+            filteredData = tubesData
+            break
+        case "warning":
+            filteredData = tubesData.filter((tube) => tube.quantity <= tube.warning)
+            break
+        case "critical":
+            filteredData = tubesData.filter((tube) => tube.quantity <= tube.critical)
+            break                
+        default: 
+            filteredData = tubesData
+    }
+}
+
+const filterByReference = (searchedReference) => {
+    if (searchedReference.length > 1 ) filteredData = filteredData.filter((tube) => tube.reference.includes(searchedReference.toUpperCase()))
+}
+
+document.querySelector('#search-input').addEventListener('keyup', (e) => {
+    const referenceFilter = e.target.value
+    filterByKey(filterRule)
+    filterByReference(referenceFilter)
+    redrawTable(filteredData)
+})
 
 const redrawTable = (filteredData) => {
     let table = document.querySelector('#tubesTable')
