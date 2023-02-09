@@ -18,7 +18,7 @@ class TubesController extends Controller
 
     public function index ()
     {
-        $tubes = Tube::orderBy('reference')->paginate(10);
+        $tubes = Tube::orderBy('reference')->paginate(env('PAGINATE_DEFAULT'));
         return view('tubes.index', compact('tubes'));
     }
 

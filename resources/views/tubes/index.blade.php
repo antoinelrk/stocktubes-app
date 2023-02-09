@@ -6,7 +6,7 @@
 <section class="content tubes">
     <div class="content-head">
 
-        <h2>List of tubes ({{ $tubes->count() }})</h2>
+        <h2 class="js-title-tubes" data-tubes="{{ $tubes->values() }}">List of tubes ({{ $tubes->total() }})</h2>
 
         <div class="control">
             <div class="search-bar">
@@ -36,9 +36,9 @@
     <div class="table">
         <div class="head-table">
             <div class="btn-regroup">
-                <button class="mode-show all active">All</button>
-                <button class="mode-show warning">Warning</button>
-                <button class="mode-show critical">Critical</button>
+                <button class="js-mode-show active" data-filter="all">All</button>
+                <button class="js-mode-show" data-filter="warning">Warning</button>
+                <button class="js-mode-show" data-filter="critical">Critical</button>
             </div>
         </div>
 
@@ -93,7 +93,38 @@
             </tr>
             @endforeach
         </table>
-        {{ $tubes->links() }}
+        {{-- <div class="paginator">
+            <nav class="pagination">
+                <a class="first" href="{{ $tubes->url(1) }}">
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24">
+                            <path d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6 1.41-1.41zM6 6h2v12H6V6z"></path>
+                        </svg>
+                    </figure>
+                </a>
+                <a class="prev" href="{{ $tubes->previousPageUrl() }}">
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24">
+                            <path d="M14.2 6l-6 6 6 6 1.41-1.41L11.03 12l4.58-4.59L14.2 6z"></path>
+                        </svg>
+                    </figure>
+                </a>
+                <a class="next" href="{{ $tubes->nextPageUrl() }}">
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24">
+                            <path d="M10.02 6L8.61 7.41 13.19 12l-4.58 4.59L10.02 18l6-6-6-6z"></path>
+                        </svg>
+                    </figure>
+                </a>
+                <a class="last">
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24">
+                            <path d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6-1.41 1.41zM16 6h2v12h-2V6z"></path>
+                        </svg>
+                    </figure>
+                </a>
+            </nav>
+        </div> --}}
     </div>
 </section>
 @endsection

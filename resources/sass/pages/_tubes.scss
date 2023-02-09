@@ -238,6 +238,42 @@
                 }
             }
         }
+
+        .paginator {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+
+            nav.pagination {
+                display: flex;
+                margin-top: auto;
+                column-gap: 16px;
+
+                a {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 4px;
+                    background-color: var(--buttons);
+                    transition: background-color .25s ease;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: var(--tonic);
+                        transition: background-color .25s ease;
+                    }
+
+                    figure {
+                        display: flex;
+                        width: 75%;
+                        height: 75%;
+                        fill: var(--background)
+                    }
+                }
+            }
+        }
     }
 
     &.show {
