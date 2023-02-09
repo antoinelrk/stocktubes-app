@@ -1,9 +1,6 @@
 import './bootstrap';
 import '../../resources/sass/app.scss'
 
-/**
- * Tubes filter
- */
 const filterButtons = document.querySelectorAll('.js-mode-show')
 const searchInput = document.querySelector('#search-input')
 
@@ -11,13 +8,15 @@ const resetFilterButtons = (clickedButton) => {
     filterButtons.forEach((button) => (clickedButton !== button) ? button.classList.remove('active') : "")
 }
 
-const tubesData = JSON.parse(document.querySelector('.js-title-tubes').getAttribute('data-tubes'))
+const tubesData = document.querySelector('.js-title-tubes') !== null ?
+    JSON.parse(document.querySelector('.js-title-tubes').getAttribute('data-tubes')) : null
 
 let filterRule = `all`
 let filteredData = tubesData
 
 filterButtons.forEach((button) => {
     button.addEventListener('click', (e) => {
+        filterRule = ``
         const clickedButtonElement = e.target
         if (!clickedButtonElement.classList.contains('active')) {
             clickedButtonElement.classList.add('active')
@@ -50,7 +49,7 @@ const filterByReference = (searchedReference) => {
     if (searchedReference.length > 1 ) filteredData = filteredData.filter((tube) => tube.reference.includes(searchedReference.toUpperCase()))
 }
 
-document.querySelector('#search-input').addEventListener('keyup', (e) => {
+document.querySelector('#search-input')?.addEventListener('keyup', (e) => {
     const referenceFilter = e.target.value
     filterByKey(filterRule)
     filterByReference(referenceFilter)

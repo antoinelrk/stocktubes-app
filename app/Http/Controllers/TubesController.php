@@ -13,7 +13,23 @@ class TubesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', [
+            'except' => 'test'
+        ]);
+    }
+
+    public function test ()
+    {
+        $tubes = Tube::all();
+        foreach ($tubes as $tube) {
+            if ($tube->datasheet) {
+                $explodedFile = explode('.', $tube->datasheet);
+                $tube->update([
+                    'datasheet' => Str::slug($explodedFile[0]) . "." . $explodedFile['1']
+                ]);
+                echo "$tube->reference a été modifié<br>";
+            }
+        }
     }
 
     public function index ()

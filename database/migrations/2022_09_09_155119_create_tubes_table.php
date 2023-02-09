@@ -35,8 +35,7 @@ return new class extends Migration
                 ->nullable()
                 ->default(NULL);
             $table->string('datasheet', 255)
-                ->nullable()
-                ->unique();
+                ->nullable();
             $table->timestamps();
         });
     }
