@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Tubes;
 
+use App\Rules\GreaterThan;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RequestTubesCreate extends FormRequest
@@ -39,7 +40,8 @@ class RequestTubesCreate extends FormRequest
             ],
             'warning' => [
                 'integer',
-                'nullable'
+                'nullable',
+                new GreaterThan($this->request->get('critical'))
             ],
             'critical' => [
                 'integer',

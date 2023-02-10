@@ -18,20 +18,6 @@ class TubesController extends Controller
         ]);
     }
 
-    public function test ()
-    {
-        $tubes = Tube::all();
-        foreach ($tubes as $tube) {
-            if ($tube->datasheet) {
-                $explodedFile = explode('.', $tube->datasheet);
-                $tube->update([
-                    'datasheet' => Str::slug($explodedFile[0]) . "." . $explodedFile['1']
-                ]);
-                echo "$tube->reference a été modifié<br>";
-            }
-        }
-    }
-
     public function index ()
     {
         $tubes = Tube::orderBy('reference')->paginate(env('PAGINATE_DEFAULT'));
@@ -58,6 +44,8 @@ class TubesController extends Controller
     public function create (RequestTubesCreate $request)
     {
         $slug = Str::slug($request->reference);
+
+        // TODO: Faire la validation du critical < warning si non-null
 
         if ($request->datasheet !== null) {
             $datasheetName = $slug . "." . $request->datasheet->extension();
