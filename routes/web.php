@@ -7,6 +7,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\SemiConductorController;
 use App\Http\Controllers\TubesController;
 use App\Http\Controllers\UsersController;
+use App\Models\SemiConductor;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PagesController::class, 'home'])
@@ -27,8 +28,39 @@ Route::group(['prefix' => 'auth'], function () {
         ->name('logout');
 });
 
-Route::group(['prefix' => 'semi-conductors'], function () {
-    Route::get('/', [SemiConductorController::class, 'index'])->name('semi-conductors');
+Route::group(['prefix' => 'smc'], function () {
+    Route::get('/', [SemiConductorController::class, 'index'])
+        ->name('smc');
+    Route::get('/add', function () {
+        return view('smc.addSmcForm');
+    })
+    ->middleware('auth')
+    ->name('smc.addSmcForm');
+
+    Route::get('/edit/{slug}', [SemiConductorController::class, 'updateSmcForm'])
+        ->where('slug', '[0-9A-Za-z\-]+')
+        ->name('smc.updateSmcForm');
+    Route::get('/delete/{slug}', [SemiConductorController::class, 'delete'])
+        ->where('slug', '[0-9A-Za-z\-]+');
+    Route::get('/show/{slug}', [SemiConductorController::class, 'showSmcPage'])
+        ->where('slug', '[0-9A-Za-z\-]+')
+        ->name('smc.show');
+
+    Route::get('/datasheet/{slug}', [SemiConductorController::class, 'datasheet'])
+        ->where('slug', '[0-9A-Za-z\-]+')
+        ->name('smc.datasheet');
+    Route::get('/datasheet/remove/{slug}', [SemiConductorController::class, 'removeDatasheet'])
+        ->where('slug', '[0-9A-Za-z\-]+')
+        ->name('smc.datasheet.remove');
+
+    Route::post('/create', [SemiConductorController::class, 'create'])
+        ->name('smc.create');
+    Route::post('/update/{slug}', [SemiConductorController::class, 'update'])
+        ->where('slug', '[0-9A-Za-z\-]+')
+        ->name('smc.update');
+    Route::post('/delete/{slug}', [SemiConductorController::class, 'delete'])
+        ->where('slug', '[0-9A-Za-z\-]+')
+        ->name('smc.delete');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
@@ -38,8 +70,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 Route::group(['prefix' => 'tubes'], function () {
     Route::get('/', [TubesController::class, 'index'])
         ->name('tubes');
-    Route::get('/add', [TubesController::class, 'addTubeForm'])
-        ->name('tubes.addTubeForm');
+    Route::get('/add', function () {
+        return view('tubes.addTubeForm');
+    })
+    ->middleware('auth')
+    ->name('tubes.addTubeForm');
+
     Route::get('/edit/{slug}', [TubesController::class, 'updateTubeForm'])
         ->where('slug', '[0-9A-Za-z\-]+')
         ->name('tubes.updateTubeForm');
@@ -48,6 +84,7 @@ Route::group(['prefix' => 'tubes'], function () {
     Route::get('/show/{slug}', [TubesController::class, 'showTubePage'])
         ->where('slug', '[0-9A-Za-z\-]+')
         ->name('tubes.show');
+
     Route::get('/datasheet/{slug}', [TubesController::class, 'datasheet'])
         ->where('slug', '[0-9A-Za-z\-]+')
         ->name('tubes.datasheet');
@@ -63,12 +100,6 @@ Route::group(['prefix' => 'tubes'], function () {
     Route::post('/delete/{slug}', [TubesController::class, 'delete'])
         ->where('slug', '[0-9A-Za-z\-]+')
         ->name('tubes.delete');
-});
-
-Route::group(['prefix' => 'smc'], function () {
-    Route::get('/', function () {
-        echo "ok";
-    })->name('smc');
 });
 
 Route::group(['prefix' => 'users'], function () {

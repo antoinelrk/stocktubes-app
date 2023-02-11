@@ -1,12 +1,11 @@
 @extends('layouts.app')
-@section('title', "Tubes")
+@section('title', "Semi-Conductors")
 
 @section('content')
-
 <section class="content tubes">
     <div class="content-head">
 
-        <h2 class="js-title-tubes" data-tubes="{{ $tubes->values() }}">List of tubes ({{ $tubes->total() }})</h2>
+        <h2 class="js-title-tubes" data-tubes="{{ $smc->values() }}">List of Semi-Conductors ({{ $smc->total() }})</h2>
 
         <div class="control">
             <div class="search-bar">
@@ -22,13 +21,13 @@
                 </label>
             </div>
 
-            <a class="btn-create-tube" href="{{ route('tubes.addTubeForm') }}">
+            <a class="btn-create-tube" href="{{ route('smc.addSmcForm') }}">
                 <figure>
                     <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"></path>
                     </svg>
                 </figure>
-                <span>Add tube</span>
+                <span>Add SMC</span>
             </a>
         </div>
     </div>
@@ -51,29 +50,29 @@
                 <td class="action">Action</td>
             </tr>
 
-            @foreach ($tubes as $tube)
+            @foreach ($smc as $semi_conductor)
             <tr class="line" id="line">
                 <td class="reference warning">
-                    <a href="{{ route('tubes.show', $tube->slug) }}">{{ $tube->reference }}</a>
+                    <a href="{{ route('smc.show', $semi_conductor->slug) }}">{{ $semi_conductor->reference }}</a>
                 </td>
-                <td class="number @if ($tube->quantity <= $tube->critical) critical @elseif ($tube->quantity <= $tube->warning) warning @endif">
-                    {{ ($tube->quantity) }}
-                </td>
-                <td class="number">
-                    {{ $tube->used === null ? "Non défini" : $tube->used }}
+                <td class="number @if ($semi_conductor->quantity <= $semi_conductor->critical) critical @elseif ($semi_conductor->quantity <= $semi_conductor->warning) warning @endif">
+                    {{ ($semi_conductor->quantity) }}
                 </td>
                 <td class="number">
-                    {{ $tube->unused === null ? "Non défini" : $tube->unused }}
+                    {{ $semi_conductor->used === null ? "Non défini" : $semi_conductor->used }}
+                </td>
+                <td class="number">
+                    {{ $semi_conductor->unused === null ? "Non défini" : $semi_conductor->unused }}
                 </td>
                 <td class="action">
-                    <a href="{{ route('tubes.updateTubeForm', $tube->slug) }}">
+                    <a href="{{ route('smc.updateSmcForm', $semi_conductor->slug) }}">
                         <figure>
                             <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512">
                                 <path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/>
                             </svg>
                         </figure>
                     </a>
-                    <a class=" @if ($tube->datasheet === null) lock @endif" target="_blank" href="/storage/datasheets/tubes/{{ $tube->datasheet }}">
+                    <a class=" @if ($semi_conductor->datasheet === null) lock @endif" target="_blank" href="/storage/datasheets/smc/{{ $semi_conductor->datasheet }}">
                         <figure>
                             <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 121 113">
                                 <g fill-rule="evenodd" stroke-linejoin="round">
@@ -83,9 +82,9 @@
                         </figure>
                     </a>
                     <a class="btn-remove-danger js-delete-tube"
-                       data-message="Souhaitez-vous vraiment supprimer le tube {{ $tube->reference }} ?"
-                       data-payload="/tubes/delete/{{ $tube->slug }}"
-                       data-tube="{{ json_encode(json_encode($tube)) }}"
+                       data-message="Souhaitez-vous vraiment supprimer le semi-conduteur {{ $semi_conductor->reference }} ?"
+                       data-payload="/smc/delete/{{ $semi_conductor->slug }}"
+                       data-tube="{{ json_encode(json_encode($semi_conductor)) }}"
                     >
                         <figure>
                             <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 448 512">

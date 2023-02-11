@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Tubes;
 
+use App\Rules\GreaterThan;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -43,7 +44,8 @@ class TubeUpdateRequest extends FormRequest
             'warning' => [
                 'integer',
                 'nullable',
-                'between:0,999'
+                'between:0,999',
+                new GreaterThan($this->request->get('critical')) // TODO: Attention si critical est null !!
             ],
             'critical' => [
                 'integer',
@@ -54,7 +56,6 @@ class TubeUpdateRequest extends FormRequest
                 'file',
                 'nullable'
             ]
-            // TODO: Faire en sorte que le critical soit forcément en dessous du warning
         ];
     }
 }

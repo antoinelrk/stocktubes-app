@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Tubes;
+namespace App\Http\Requests\Smc;
 
 use App\Rules\GreaterThan;
 use Illuminate\Foundation\Http\FormRequest;
 
-class TubeCreateRequest extends FormRequest
+class SmcCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,17 +28,16 @@ class TubeCreateRequest extends FormRequest
             'reference' => [
                 'string',
                 'max:16',
-                'unique:tubes,reference'
+                'nullable',
+                'unique:semi_conductors,reference'
             ],
             'used' => [
                 'integer',
-                'nullable',
-                'between:0,999'
+                'nullable'
             ],
             'unused' => [
                 'integer',
-                'nullable',
-                'between:0,999'
+                'nullable'
             ],
             'warning' => [
                 'integer',

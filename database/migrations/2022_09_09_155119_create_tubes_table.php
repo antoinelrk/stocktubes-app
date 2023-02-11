@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('tubes', function (Blueprint $table) {
             $table->id();
-            $table->string('reference')
+            $table->string('reference', 255)
                 ->unique();
-            $table->string('slug')
+            $table->string('slug', 255)
                 ->unique();
             $table->bigInteger('user_id')
                 ->unsigned();
