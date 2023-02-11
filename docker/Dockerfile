@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM alpine:3.17
 LABEL maintainer="AntoineLRK <contact@antoinelrk.com>"
 LABEL version="0.1"
 
@@ -65,7 +65,7 @@ sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" \
 -e "s/^;clear_env = no$/clear_env = no/" \
 /etc/php81/php-fpm.d/www.conf
 
-RUN ln -s /usr/bin/php81 /usr/bin/php
+# RUN ln -s /usr/bin/php81 /usr/bin/php
 
 COPY ./composer.json ./composer.json
 
