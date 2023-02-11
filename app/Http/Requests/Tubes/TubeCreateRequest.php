@@ -5,7 +5,7 @@ namespace App\Http\Requests\Tubes;
 use App\Rules\GreaterThan;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RequestTubesCreate extends FormRequest
+class TubeCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

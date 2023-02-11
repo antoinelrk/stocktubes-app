@@ -6,7 +6,7 @@ use App\Models\Tube;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Tubes\TubeUpdateRequest;
-use App\Http\Requests\Tubes\RequestTubesCreate;
+use App\Http\Requests\Tubes\TubeCreateRequest;
 use Illuminate\Support\Facades\Storage;
 
 class TubesController extends Controller
@@ -41,12 +41,9 @@ class TubesController extends Controller
         return view('tubes.showTube', compact('tube'));
     }
 
-    public function create (RequestTubesCreate $request)
+    public function create (TubeCreateRequest $request)
     {
         $slug = Str::slug($request->reference);
-
-        // TODO: Faire la validation du critical < warning si non-null
-
         if ($request->datasheet !== null) {
             $datasheetName = $slug . "." . $request->datasheet->extension();
         }
