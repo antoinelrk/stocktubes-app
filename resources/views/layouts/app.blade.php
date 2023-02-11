@@ -38,10 +38,10 @@
         <header>
             <nav>
                 <ul>
-                    <li><a href="{{ route('home') }}">Home</a></li>
+                    <li><a href="{{ route('home') }}" class="{{ route('home') === url()->current() ? "active" : "" }}">Home</a></li>
                     @auth
-                        <li><a href="{{ route('tubes') }}">Tubes</a></li>
-                        <li><a href="#">SemiConductors</a></li>
+                        <li><a href="{{ route('tubes') }}" class="{{ route('tubes') === url()->current() ? "active" : "" }}">Tubes</a></li>
+                        <li><a href="#" class="{{ route('smc') === url()->current() ? "active" : "" }}">SemiConductors</a></li>
                         <li><a href="{{ route('logout') }}">Logout</a></li>
                     @endauth
                     @guest

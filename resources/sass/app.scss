@@ -143,6 +143,12 @@ body {
                             transition: background-color .25s ease;
                             color: white;
                             user-select: none;
+
+                            &.active {
+                                background-color: var(--buttons);
+                                pointer-events: none;
+                                cursor: default;
+                            }
     
                             &:hover {
                                 transition: background-color .25s ease;

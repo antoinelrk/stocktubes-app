@@ -65,6 +65,12 @@ Route::group(['prefix' => 'tubes'], function () {
         ->name('tubes.delete');
 });
 
+Route::group(['prefix' => 'smc'], function () {
+    Route::get('/', function () {
+        echo "ok";
+    })->name('smc');
+});
+
 Route::group(['prefix' => 'users'], function () {
     Route::get('/profile', [UsersController::class, 'profile'])
         ->name('users.profile');
