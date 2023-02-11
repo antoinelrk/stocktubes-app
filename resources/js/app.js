@@ -61,6 +61,9 @@ const redrawTable = (filteredData) => {
     table.innerHTML = ``
     let incrementedLine = ``
     filteredData.forEach((tube) => {
+
+        const attrData = JSON.stringify("data-tube=\"" + JSON.stringify(tube) + "\"")
+
         incrementedLine += `
         <tr class="line" id="line">
             <td class="reference warning"><a href="/tubes/show/${tube.slug}">${tube.reference}</a></td>
@@ -84,7 +87,11 @@ const redrawTable = (filteredData) => {
                         </svg>
                     </figure>
                 </a>
-                <a class="btn-remove-danger js-delete-tube" data-tube="${tube}">
+                <a class="btn-remove-danger js-delete-tube"
+                   ${attrData}
+                   data-message="Souhaitez-vous vraiment supprimer le tube ${tube.reference} ?"
+                   data-payload="/tubes/delete/${tube.slug}"
+                >
                     <figure>
                         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 448 512">
                             <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
@@ -107,6 +114,7 @@ const redrawTable = (filteredData) => {
     ${incrementedLine}
     `
     table.innerHTML = filteredTablePattern
+    document.querySelectorAll('.js-delete-tube').forEach((element) => element.addEventListener('click', openModal))
 }
 
 /**
@@ -116,9 +124,10 @@ let modal = null
 
 const openModal = async (e) => {
     e.preventDefault()
-    const data = JSON.parse(e.target.getAttribute('data-tube'))
+    const data = e.target.getAttribute('data-tube')
+    console.log(JSON.parse(data))
     const modalMessage = e.target.getAttribute('data-message')
-    const yesResponseURL = `${e.target.getAttribute('data-payload')}${data.slug}`
+    const yesResponseURL = `${e.target.getAttribute('data-payload')}`
     modal = document.querySelector('.modal')
     modal.style.display = null
     modal.removeAttribute('aria-hidden')
@@ -139,6 +148,8 @@ const closeModal = (e) => {
     const hideModal = () => {
         modal.style.display = "none"
         modal.removeEventListener('animationend', hideModal)
+        modal.querySelector('.js-modal-text').innerText = ``
+        modal.querySelector('.js-modal-yes').removeAttribute('href')
         modal = null
     }
     modal.addEventListener('animationend', hideModal)

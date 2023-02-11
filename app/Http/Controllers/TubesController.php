@@ -112,13 +112,17 @@ class TubesController extends Controller
 
     public function delete($slug)
     {
-        $tube = Tube::where('slug', $slug)->first();
-        if ($this->deleteDatasheet($tube)) {
-            if ($tube->delete()) {
-                return back()->with(['errors' => "Impossible de supprimer le tube $tube->reference, contactez un administrateur."]);
+        if (($tube = Tube::where('slug', $slug)->first()) !== null) {
+            if ($tube->datasheet !== null) {
+                if (!$this->deleteDatasheet($tube)) return back()->with(['errors' => "Impossible de supprimer le datasheet du tube $tube->reference, contactez un administrateur."]);
             }
-            return redirect(route('tubes'))->with(['success' => "Le tube $tube->reference à bien été supprimé."]);
+
+            if ($tube->delete()) {
+                return redirect(route('tubes'))->with(['success' => "Le tube $tube->reference à bien été supprimé."]);
+            }
+            return back()->with(['errors' => "Impossible de supprimer le tube $tube->reference, contactez un administrateur. [Erreur DB]"]);
         }
-        return back()->with(['errors' => "Impossible de supprimer le tube $tube->reference, contactez un administrateur"]);
+
+        return back()->with(['errors' => "Le tube $slug n'existe pas !"]);
     }
 }
