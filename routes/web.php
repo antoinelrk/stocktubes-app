@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PagesController::class, 'home'])
     ->name('home');
+Route::get('/test', [PagesController::class, 'zipDatasheets'])
+    ->name('test');
 
 Route::group(['prefix' => 'auth'], function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])
