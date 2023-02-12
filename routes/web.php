@@ -29,6 +29,8 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(['prefix' => 'smc'], function () {
+    Route::get('/export', [SemiConductorController::class, 'export'])
+        ->name('smc.export');
     Route::get('/', [SemiConductorController::class, 'index'])
         ->name('smc');
     Route::get('/add', function () {
@@ -61,6 +63,8 @@ Route::group(['prefix' => 'smc'], function () {
     Route::post('/delete/{slug}', [SemiConductorController::class, 'delete'])
         ->where('slug', '[0-9A-Za-z\-]+')
         ->name('smc.delete');
+    Route::get('/export', [SemiConductorController::class, 'export'])
+        ->name('smc.export');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
@@ -100,6 +104,8 @@ Route::group(['prefix' => 'tubes'], function () {
     Route::post('/delete/{slug}', [TubesController::class, 'delete'])
         ->where('slug', '[0-9A-Za-z\-]+')
         ->name('tubes.delete');
+    Route::get('/export', [TubesController::class, 'export'])
+        ->name('tubes.export');
 });
 
 Route::group(['prefix' => 'users'], function () {

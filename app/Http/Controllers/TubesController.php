@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Tube;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Tubes\TubeUpdateRequest;
-use App\Http\Requests\Tubes\TubeCreateRequest;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\Tubes\TubeCreateRequest;
+use App\Http\Requests\Tubes\TubeUpdateRequest;
 
 class TubesController extends Controller
 {
+    private $now;
     public function __construct()
     {
         $this->middleware('auth');
+        $this->now = Carbon::now();
     }
 
     public function index ()
@@ -119,5 +122,16 @@ class TubesController extends Controller
         }
 
         return back()->with(['errors' => "Le tube $slug n'existe pas !"]);
+    }
+
+    public function export ()
+    {
+        $tubes = Tube::raw();
+        $files = Storage::files('public/exports');
+        Storage::delete($files);
+        $filename = 'public/exports-' . $this->now->format('d-m-y-h-i-s') . '-tubes.json';
+        Storage::put($filename, $tubes);
+        $uploaded = Storage::path($filename);
+        return response()->download($uploaded);
     }
 }

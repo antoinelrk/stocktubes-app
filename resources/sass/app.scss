@@ -201,6 +201,17 @@ body {
             @import 'pages/tubes';
             @import 'pages/home';
             @import 'pages/form';
+
+            &.admin {
+                h1 {
+                    margin: 1.5em 0;
+                }
+
+                .admin-section {
+                    display: flex;
+                    background-color: red;
+                }
+            }
         }
 
         footer {

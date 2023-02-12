@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\SemiConductor;
@@ -12,9 +13,11 @@ use App\Http\Requests\Smc\SmcUpdateRequest;
 
 class SemiConductorController extends Controller
 {
+    private $now;
     public function __construct()
     {
         $this->middleware('auth');
+        $this->now = Carbon::now();
     }
     
     public function index ()
@@ -115,5 +118,16 @@ class SemiConductorController extends Controller
         }
 
         return back()->with(['errors' => "Le semi-conduteur $slug n'existe pas !"]);
+    }
+
+    public function export ()
+    {
+        $smc = SemiConductor::get();
+        $files = Storage::files('public/exports');
+        Storage::delete($files);
+        $filename = 'public/exports-' . $this->now->format('d-m-y-h-i-s') . '-smc.json';
+        Storage::put($filename, $smc);
+        $uploaded = Storage::path($filename);
+        return response()->download($uploaded);
     }
 }

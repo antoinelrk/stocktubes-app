@@ -26,6 +26,13 @@ class Tube extends Model
         'quantity'
     ];
 
+    public static function raw()
+    {
+        return self::all()->makeHidden([
+            'quantity'
+        ]);
+    }
+
     public function getQuantityAttribute ()
     {
         return ($this->used + $this->unused);

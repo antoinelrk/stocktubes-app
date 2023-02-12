@@ -2,7 +2,8 @@
 @section('title', "Administration")
 
 @section('content')
-<section class="content form">
+<section class="content form admin">
+    <h1>Add a new user</h1>
     <form action="{{ route('users.create') }}" method="POST">
         @csrf
         <div class="form-group">
@@ -24,13 +25,17 @@
             <label class="text" for="password_confirmation"><span>Confirmation du mot de passe</span></label>
             <input type="password" name="password_confirmation" id="password_confirmation">
         </div>
-
-        <button type="submit">Créer</button>
+        <div class="form-group row">
+            <button class="btn-submit" type="submit">Créer</button>
+        </div>
     </form>
 
+    <h1>Export/Import data</h1>
     <div class="admin-section">
-        <p>Exporter les données au format JSON</p>
-        <button>Export database</button>
+        <p>Exporter les données au format JSON:
+            <a href="{{ route('tubes.export') }}" class="btn-submit">Export Tubes</a>
+            <a href="{{ route('smc.export') }}" class="btn-submit">Export SMC</a>
+        </p>
     </div>
 
     <div class="admin-section">
