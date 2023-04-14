@@ -17,9 +17,9 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => env('SUPERADMIN_LOGIN', 'admin'),
-            'email' => env('SUPERADMIN_EMAIL', 'admin@admin.ndd'),
-            'password' => Hash::make(env('SUPERADMIN_PASSWORD', 'admin')),
+            'name' => env('ADMIN_USERNAME', 'admin'),
+            'email' => env('ADMIN_EMAIL', 'admin@admin.ndd'),
+            'password' => Hash::make(env('ADMIN_PASSWORD', 'admin')),
             'is_admin' => true
         ]);
     }
