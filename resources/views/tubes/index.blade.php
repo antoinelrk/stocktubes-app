@@ -1,12 +1,12 @@
 @extends('layouts.app')
-@section('title', "Tubes")
+@section('title', __('pages.tubes'))
 
 @section('content')
 
 <section class="content tubes">
     <div class="content-head">
 
-        <h2 class="js-title-tubes" data-tubes="{{ $tubes->values() }}">List of tubes ({{ $tubes->total() }})</h2>
+        <h2 class="js-title-tubes" data-tubes="{{ $tubes->values() }}">{{ __('ui.tubes-list') }} ({{ $tubes->total() }})</h2>
 
         <div class="control">
             <div class="search-bar">
@@ -28,7 +28,7 @@
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"></path>
                     </svg>
                 </figure>
-                <span>Add tube</span>
+                <span>{{ __('ui.add-tube') }}</span>
             </a>
         </div>
     </div>
@@ -36,19 +36,19 @@
     <div class="table">
         <div class="head-table">
             <div class="btn-regroup">
-                <button class="js-mode-show active" data-filter="all">All</button>
-                <button class="js-mode-show" data-filter="warning">Warning</button>
-                <button class="js-mode-show" data-filter="critical">Critical</button>
+                <button class="js-mode-show active" data-filter="all">{{ __('ui.all') }}</button>
+                <button class="js-mode-show" data-filter="warning">{{ __('ui.warning') }}</button>
+                <button class="js-mode-show" data-filter="critical">{{ __('ui.critical') }}</button>
             </div>
         </div>
 
         <table class="body-table" id="tubesTable">
             <tr class="title">
-                <td class="reference">Reference</td>
-                <td class="number">Quantity</td>
-                <td class="number">Used</td>
-                <td class="number">Unused</td>
-                <td class="action">Action</td>
+                <td class="reference">{{ __('ui.reference') }}</td>
+                <td class="number">{{ __('ui.quantity') }}</td>
+                <td class="number">{{ __('ui.used') }}</td>
+                <td class="number">{{ __('ui.unused') }}</td>
+                <td class="action">{{ __('ui.control') }}</td>
             </tr>
 
             @foreach ($tubes as $tube)

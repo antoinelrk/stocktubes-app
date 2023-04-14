@@ -38,14 +38,14 @@
         <header>
             <nav>
                 <ul>
-                    <li><a href="{{ route('home') }}" class="{{ route('home') === url()->current() ? "active" : "" }}">Home</a></li>
+                    <li><a href="{{ route('home') }}" class="{{ route('home') === url()->current() ? "active" : "" }}">{{ __('pages.home') }}</a></li>
                     @auth
-                        <li><a href="{{ route('tubes') }}" class="{{ route('tubes') === url()->current() ? "active" : "" }}">Tubes</a></li>
-                        <li><a href="{{ route('smc') }}" class="{{ route('smc') === url()->current() ? "active" : "" }}">SemiConductors</a></li>
-                        <li><a href="{{ route('logout') }}">Logout</a></li>
+                        <li><a href="{{ route('tubes') }}" class="{{ route('tubes') === url()->current() ? "active" : "" }}">{{ __('pages.tubes') }}</a></li>
+                        <li><a href="{{ route('smc') }}" class="{{ route('smc') === url()->current() ? "active" : "" }}">{{ __('pages.smc') }}</a></li>
+                        <li><a href="{{ route('logout') }}">{{ __('ui.logout') }}</a></li>
                     @endauth
                     @guest
-                        <li><a href="{{ route('login') }}">Login</a></li>
+                        <li><a href="{{ route('login') }}">{{ __('ui.login') }}</a></li>
                     @endguest
                 </ul>
                 @auth
@@ -59,7 +59,7 @@
         </header>
         @yield('content')
         <footer>
-            <span>&copy; <a href="https://antoinelrk.com" target="_blank">Antoine LRK</a> • 2015 - 2023 @auth @if(auth()->user()->is_admin) • <a href="{{ route('dashboard') }}">Administration</a> @endif @endauth</span>
+            <span>&copy; <a href="https://antoinelrk.com" target="_blank">Antoine LRK</a> • 2015 - 2023 @auth @if(auth()->user()->is_admin) • <a href="{{ route('dashboard') }}">{{ __('ui.admin_dashboard') }}</a> @endif @endauth</span>
         </footer>
     </div>
 </body>
