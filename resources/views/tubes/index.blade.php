@@ -1,11 +1,12 @@
 @extends('layouts.app')
-@section('title', "Home")
+@section('title', __('pages.tubes'))
 
 @section('content')
+
 <section class="content tubes">
     <div class="content-head">
 
-        <h2>List of tubes</h2>
+        <h2 class="js-title-tubes" data-tubes="{{ $tubes->values() }}">{{ __('ui.tubes-list') }} ({{ $tubes->total() }})</h2>
 
         <div class="control">
             <div class="search-bar">
@@ -27,7 +28,7 @@
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"></path>
                     </svg>
                 </figure>
-                <span>Add tube</span>
+                <span>{{ __('ui.add-tube') }}</span>
             </a>
         </div>
     </div>
@@ -35,19 +36,19 @@
     <div class="table">
         <div class="head-table">
             <div class="btn-regroup">
-                <button class="mode-show all active">All</button>
-                <button class="mode-show warning">Warning</button>
-                <button class="mode-show critical">Critical</button>
+                <button class="js-mode-show active" data-filter="all">{{ __('ui.all') }}</button>
+                <button class="js-mode-show" data-filter="warning">{{ __('ui.warning') }}</button>
+                <button class="js-mode-show" data-filter="critical">{{ __('ui.critical') }}</button>
             </div>
         </div>
 
         <table class="body-table" id="tubesTable">
             <tr class="title">
-                <td class="reference">Reference</td>
-                <td class="number">Quantity</td>
-                <td class="number">Used</td>
-                <td class="number">Unused</td>
-                <td class="action">Action</td>
+                <td class="reference">{{ __('ui.reference') }}</td>
+                <td class="number">{{ __('ui.quantity') }}</td>
+                <td class="number">{{ __('ui.used') }}</td>
+                <td class="number">{{ __('ui.unused') }}</td>
+                <td class="action">{{ __('ui.control') }}</td>
             </tr>
 
             @foreach ($tubes as $tube)
@@ -59,13 +60,13 @@
                     {{ ($tube->quantity) }}
                 </td>
                 <td class="number">
-                    {{ $tube->critical === null ? "Non défini" : $tube->critical }}
+                    {{ $tube->used === null ? "Non défini" : $tube->used }}
                 </td>
                 <td class="number">
-                    {{ $tube->warning === null ? "Non défini" : $tube->warning }}
+                    {{ $tube->unused === null ? "Non défini" : $tube->unused }}
                 </td>
                 <td class="action">
-                    <a href="{{ route('tubes.updateTubeForm', 1) }}">
+                    <a href="{{ route('tubes.updateTubeForm', $tube->slug) }}">
                         <figure>
                             <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512">
                                 <path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/>
@@ -81,17 +82,53 @@
                             </svg>
                         </figure>
                     </a>
-                    <a href="#">
+                    <a class="btn-remove-danger js-delete-tube"
+                       data-message="Souhaitez-vous vraiment supprimer le tube {{ $tube->reference }} ?"
+                       data-payload="/tubes/delete/{{ $tube->slug }}"
+                       data-tube="{{ json_encode(json_encode($tube)) }}"
+                    >
                         <figure>
                             <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 448 512">
                                 <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
                             </svg>
                         </figure>
-                    </a>
+                    </a>   
                 </td>
             </tr>
             @endforeach
         </table>
+        {{-- <div class="paginator">
+            <nav class="pagination">
+                <a class="first" href="{{ $tubes->url(1) }}">
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24">
+                            <path d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6 1.41-1.41zM6 6h2v12H6V6z"></path>
+                        </svg>
+                    </figure>
+                </a>
+                <a class="prev" href="{{ $tubes->previousPageUrl() }}">
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24">
+                            <path d="M14.2 6l-6 6 6 6 1.41-1.41L11.03 12l4.58-4.59L14.2 6z"></path>
+                        </svg>
+                    </figure>
+                </a>
+                <a class="next" href="{{ $tubes->nextPageUrl() }}">
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24">
+                            <path d="M10.02 6L8.61 7.41 13.19 12l-4.58 4.59L10.02 18l6-6-6-6z"></path>
+                        </svg>
+                    </figure>
+                </a>
+                <a class="last">
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24">
+                            <path d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6-1.41 1.41zM16 6h2v12h-2V6z"></path>
+                        </svg>
+                    </figure>
+                </a>
+            </nav>
+        </div> --}}
     </div>
 </section>
 @endsection

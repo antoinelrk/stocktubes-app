@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tube extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
         'reference',
@@ -27,8 +26,20 @@ class Tube extends Model
         'quantity'
     ];
 
+    public static function raw()
+    {
+        return self::all()->makeHidden([
+            'quantity'
+        ]);
+    }
+
     public function getQuantityAttribute ()
     {
         return ($this->used + $this->unused);
+    }
+
+    public function user ()
+    {
+        return $this->belongsTo(User::class);
     }
 }

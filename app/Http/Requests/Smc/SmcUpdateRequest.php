@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Tubes;
+namespace App\Http\Requests\Smc;
 
+use App\Rules\GreaterThan;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RequestTubesCreate extends FormRequest
+class SmcUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,24 +28,29 @@ class RequestTubesCreate extends FormRequest
         return [
             'reference' => [
                 'string',
-                'max:16',
-                'nullable'
+                'nullable',
+                Rule::unique('semi_conductors')->ignore($this->reference, 'reference')
             ],
             'used' => [
                 'integer',
-                'nullable'
+                'nullable',
+                'between:0,999'
             ],
             'unused' => [
                 'integer',
-                'nullable'
+                'nullable',
+                'between:0,999'
             ],
             'warning' => [
                 'integer',
-                'nullable'
+                'nullable',
+                'between:0,999',
+                new GreaterThan($this->request->get('critical')) // TODO: Attention si critical est null !!
             ],
             'critical' => [
                 'integer',
-                'nullable'
+                'nullable',
+                'between:0,999'
             ],
             'datasheet' => [
                 'file',
