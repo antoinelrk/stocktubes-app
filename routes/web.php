@@ -21,10 +21,10 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [LoginController::class, 'login'])
         ->name('login');
     
-    Route::get('/register', [RegisterController::class, 'showRegisterForm'])
-        ->name('register.form');
-    Route::post('/register', [RegisterController::class, 'register'])
-        ->name('register');
+    // Route::get('/register', [RegisterController::class, 'showRegisterForm'])
+    //     ->name('register.form');
+    // Route::post('/register', [RegisterController::class, 'register'])
+    //     ->name('register');
 
     Route::get('/logout', [LoginController::class, 'logout'])
         ->name('logout');
