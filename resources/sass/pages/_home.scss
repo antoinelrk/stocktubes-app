@@ -1,4 +1,27 @@
 &.home {
     justify-content: center;
     align-items: center;
+    row-gap: 32px;
+
+    h1 {
+        font-size: 40px;
+    }
+
+    .patchnote {
+        display: flex;
+        flex-direction: column;
+        row-gap: 16px;
+
+        ul {
+            li {
+                list-style-type: circle;
+                margin-left: 16px;
+
+                &.no-element {
+                    font-style: italic;
+                    color: gray
+                }
+            }
+        }
+    }
 }
