@@ -9,13 +9,13 @@
             <label class="text" for="name">
                 <span>Nom d'utilisateur</span>
             </label>
-            <input type="text" name="name" placeholder="Votre nom d'utilisateur">
+            <input type="text" name="name" placeholder="Nom d'utilisateur">
         </div>
         <div class="form-group">
             <label class="text" for="name">
                 <span>Mot de passe</span>
             </label>
-            <input type="password" name="password" placeholder="Votre mot de passe">
+            <input type="password" name="password" placeholder="Mot de passe">
         </div>
         <div class="form-group row">
             <button type="submit" class="btn-submit">

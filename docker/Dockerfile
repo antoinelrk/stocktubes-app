@@ -1,12 +1,13 @@
-FROM alpine:3.16
+FROM alpine:3.17
 LABEL maintainer="AntoineLRK <contact@antoinelrk.com>"
 LABEL version="0.1"
 
-WORKDIR /var/www/stocktubes
+WORKDIR /var/www
 
 COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/supervisord.conf /etc/supervisord.conf
 COPY ./docker/nginx/vhost.conf /etc/nginx/sites-available/default.conf
+COPY ./docker/php/php.ini /etc/php81/php.ini
 
 RUN apk add --update --no-cache \
 tzdata \
@@ -64,7 +65,7 @@ sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" \
 -e "s/^;clear_env = no$/clear_env = no/" \
 /etc/php81/php-fpm.d/www.conf
 
-RUN ln -s /usr/bin/php81 /usr/bin/php
+# RUN ln -s /usr/bin/php81 /usr/bin/php
 
 COPY ./composer.json ./composer.json
 
@@ -74,7 +75,7 @@ COPY . .
 
 RUN composer install
 
-RUN chown -R nginx:nginx /var/www/stocktubes/
+RUN chown -R nginx:nginx /var/www/
 
 ENV TZ Europe/Paris
 EXPOSE 443 80

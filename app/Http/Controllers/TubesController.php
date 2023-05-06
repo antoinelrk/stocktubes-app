@@ -2,27 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Tubes\RequestTubesCreate;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Carbon\Carbon;
 use App\Models\Tube;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\Tubes\TubeCreateRequest;
+use App\Http\Requests\Tubes\TubeUpdateRequest;
 
 class TubesController extends Controller
 {
+    private $now;
     public function __construct()
     {
         $this->middleware('auth');
+        $this->now = Carbon::now();
     }
 
     public function index ()
     {
-        try {
-            $tubes = Tube::orderBy('reference')
-                ->paginate();
-        } catch (ModelNotFoundException $e) {
-            return $e;
-        }
+        $tubes = Tube::orderBy('reference')->paginate(env('PAGINATE_DEFAULT'));
         return view('tubes.index', compact('tubes'));
     }
 
@@ -31,45 +30,108 @@ class TubesController extends Controller
         return view('tubes.addTubeForm');
     }
 
-    public function updateTubeForm ()
+    public function updateTubeForm ($slug)
     {
-        return view('tubes.updateTubeForm');
+        $tube = Tube::where('slug', $slug)->first();
+        return view('tubes.updateTubeForm', compact('tube'));
     }
 
     public function showTubePage ($slug)
     {
-        try {
-            $tube = Tube::where('slug', $slug)->first();
-        } catch (ModelNotFoundException $e) {
-            return $e;
-        }
-
+        $tube = Tube::where('slug', $slug)->first();
         return view('tubes.showTube', compact('tube'));
     }
 
-    public function create (RequestTubesCreate $request)
+    public function create (TubeCreateRequest $request)
     {
+        $slug = Str::slug($request->reference);
         if ($request->datasheet !== null) {
-            $datasheetName = strtoupper($request->reference) . "." . $request->datasheet->extension();
+            $datasheetName = $slug . "." . $request->datasheet->extension();
         }
 
-        try {
-            $tube = new Tube(array_merge($request->validated(), [
-                'reference' => strtoupper($request->reference),
-                'user_id' => Auth::user()->id,
-                'datasheet' => $request->datasheet !== null ? $datasheetName : null,
-                'slug' => Str::slug($request->reference)
-            ]));
+        $tube = new Tube(array_merge($request->validated(), [
+            'reference' => strtoupper($request->reference),
+            'user_id' => Auth::user()->id,
+            'datasheet' => $request->datasheet !== null ? $datasheetName : null,
+            'slug' => $slug
+        ]));
 
-            if ($tube->save()) {
-                if ($request->datasheet !== null) {
-                    $request->datasheet->storeAs('datasheets/tubes/', $datasheetName, 'public');
-                }
+        if ($tube->save()) {
+            if ($request->datasheet !== null) {
+                $request->datasheet->storeAs('datasheets/tubes/', $datasheetName, 'public');
+            }
+            return redirect(route('tubes'))->with(['success' => "Le tube $tube->reference a bien été ajouté."]);
+        }
+        return back()->with(['errors' => "Impossible d'ajouter le tube, contactez un administrateur."]);
+    }
+
+    public function update (TubeUpdateRequest $request, $slug)
+    {
+        if (($tube = Tube::where('slug', $slug)->first()) === null) return back()->with(['errors' => "Le tube $slug n'existe pas!"]);
+        $slug = Str::slug($request->reference);
+
+        if ($request->datasheet !== null) {
+            $datasheetName = $slug . "." . $request->datasheet->extension();
+        }
+
+        if ($tube->update(array_merge($request->validated(), [
+            'reference' => strtoupper($request->reference),
+            'datasheet' => $request->datasheet !== null ? $datasheetName : $tube->datasheet,
+            'slug' => $slug
+        ]))) {
+            if ($request->datasheet !== null) {
+                $request->datasheet->storeAs('datasheets/tubes/', $datasheetName, 'public');
+            }
+            return redirect(route('tubes.show', $tube->slug))
+                ->with(['success' => "Le tube $tube->reference à bien été modifié."]);
+        }
+
+        return back()->with(['errors' => "Impossible de modifier le tube $tube->reference, contactez un administrateur."]);
+    }
+
+    public function removeDatasheet ($slug)
+    {
+        $tube = Tube::where('slug', $slug)->first();
+        if ($this->deleteDatasheet($tube)) {
+            $tube->datasheet = null;
+            if ($tube->update()) {
+                return redirect(route('tubes.show', $tube->slug))->with(['success' => "Le datasheet du tube $tube->reference a bien été supprimé."]);
+            }
+            return back()->with(['errors' => "Impossible de supprimer le tube $tube->reference, contactez un administrateur."]);
+        }
+        return back()->with(['errors' => "Impossible de supprimer le datasheet pour le tube $tube->reference, contactez un administrateur."]);
+    }
+
+    private function deleteDatasheet ($tube): bool
+    {
+        if (Storage::disk('public')->delete("datasheets/tubes/$tube->datasheet")) return true;
+        return false;
+    }
+
+    public function delete($slug)
+    {
+        if (($tube = Tube::where('slug', $slug)->first()) !== null) {
+            if ($tube->datasheet !== null) {
+                if (!$this->deleteDatasheet($tube)) return back()->with(['errors' => "Impossible de supprimer le datasheet du tube $tube->reference, contactez un administrateur."]);
             }
 
-        } catch (ModelNotFoundException $e) {
-            return $e;
+            if ($tube->delete()) {
+                return redirect(route('tubes'))->with(['success' => "Le tube $tube->reference à bien été supprimé."]);
+            }
+            return back()->with(['errors' => "Impossible de supprimer le tube $tube->reference, contactez un administrateur. [Erreur DB]"]);
         }
-        return redirect(route('tubes'));
+
+        return back()->with(['errors' => "Le tube $slug n'existe pas !"]);
+    }
+
+    public function export ()
+    {
+        $tubes = Tube::raw();
+        $files = Storage::files('public/exports');
+        Storage::delete($files);
+        $filename = 'public/exports-' . $this->now->format('d-m-y-h-i-s') . '-tubes.json';
+        Storage::put($filename, $tubes);
+        $uploaded = Storage::path($filename);
+        return response()->download($uploaded);
     }
 }

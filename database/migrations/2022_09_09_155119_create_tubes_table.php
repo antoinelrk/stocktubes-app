@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('tubes', function (Blueprint $table) {
             $table->id();
-            $table->string('reference')
+            $table->string('reference', 255)
                 ->unique();
-            $table->string('slug')
+            $table->string('slug', 255)
                 ->unique();
             $table->bigInteger('user_id')
                 ->unsigned();
@@ -35,10 +35,8 @@ return new class extends Migration
                 ->nullable()
                 ->default(NULL);
             $table->string('datasheet', 255)
-                ->nullable()
-                ->unique();
+                ->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

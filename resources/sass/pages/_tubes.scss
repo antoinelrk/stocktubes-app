@@ -208,6 +208,7 @@
                             aspect-ratio: 1/1;
                             justify-content: center;
                             align-items: center;
+                            cursor: pointer;
 
                             &.lock {
                                 pointer-events: none;
@@ -230,8 +231,45 @@
                                 width: 16px;
                                 fill: var(--header);
                                 transition: fill .25s ease;
+                                pointer-events: none;
                             }
                         }
+                    }
+                }
+            }
+        }
+
+        .paginator {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+
+            nav.pagination {
+                display: flex;
+                margin-top: auto;
+                column-gap: 16px;
+
+                a {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 4px;
+                    background-color: var(--buttons);
+                    transition: background-color .25s ease;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: var(--tonic);
+                        transition: background-color .25s ease;
+                    }
+
+                    figure {
+                        display: flex;
+                        width: 75%;
+                        height: 75%;
+                        fill: var(--background)
                     }
                 }
             }
@@ -269,6 +307,7 @@
 
             .tube-data {
                 display: flex;
+                column-gap: 32px;
 
                 ul {
                     display: flex;
@@ -300,8 +339,6 @@
                 }
             }
         }
-        
-
     
         .tube-informations {
             display: flex;
@@ -359,33 +396,62 @@
     
         .tube-control {
             display: flex;
-            margin: 32px 0 0 0;
+            column-gap: 8px;
+            justify-content: right;
     
             .btn {
-                padding: 8px 32px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0 32px;
+                height: 40px;
                 border-radius: 4px;
-                background-color: red;
                 color: white;
-    
-                &:first-child {
-                    margin-right: auto;
-                    background-color: var(--buttons-light);
+                background-color: var(--buttons-light);
+                transition: background-color .15s ease;
+                cursor: pointer;
+
+                figure {
+                    pointer-events: none;
+                }
+
+                &.disabled {
+                    background-color: #818181 !important;
+                    pointer-events: none;
+                    color: #cdcdcd;
+
+                    figure {
+                        fill: #cdcdcd !important;
+                    }
+                }
+
+                &:hover {
                     transition: background-color .15s ease;
-    
+                    background-color: var(--header);
+                }
+
+                &.danger {
+                    background-color: #bf332f;
                     &:hover {
-                        transition: background-color .15s ease;
-                        background-color: var(--header);
+                        background-color: #AF0808;
                     }
                 }
     
-                &:last-child {
-                    margin-left: auto;
-                    background-color: #bf332f;
+                &.delete {
                     transition: background-color .15s ease;
+                    width: 40px;
+                    cursor: pointer;
+                    padding: 0;
+
+                    figure {
+                        display: flex;
+                        width: 40%;
+                        height: 40%;
+                        fill: white;
+                    }
     
                     &:hover {
                         transition: background-color .15s ease;
-                        background-color: #AF0808;
                     }
                 }
             }

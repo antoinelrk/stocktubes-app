@@ -3,6 +3,6 @@
 
 @section('content')
 <section class="content home">
-    Home
+    <h1>{{ __('lines.welcome', ['name' => ucfirst(auth()->user()->name)]) }}</h1>
 </section>
 @endsection
